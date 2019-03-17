@@ -1,7 +1,7 @@
 # epaper
 Utilisation d'un écran epaper pour afficher un Google Agenda + prévision météo + météo locale + température Domoticz
 
-Please refer to https://www.alex-design.fr/Projets-R-A/Calendrier-epaper for (french) usage
+Please refer to the main web site https://www.alex-design.fr/Projets-R-A/Calendrier-epaper for (french) usage
 
 
 There are several Python programs that are used in this project. They are either launched by the main program or by a cron job or by an external event.
