@@ -1,0 +1,15 @@
+Voici un exemple de taches cron pour la bonne  execution des programmes :
+Chacune de ces tâches peuvent être mises pour les tâches cron de l'utilisateur standard (généralement, "pi").
+
+
+
+# On met a jour le calendrier toutes les heures entre 7 et 23 h
+0 7-23 * * * sh /home/pi/epaper/miseAJourCalendar.sh
+
+# Au reboot, on lance les commande shell suivantes :
+@reboot sh /home/pi/epaper/miseAJourCalendar.sh
+@reboot sh /home/pi/epaper/main.sh
+
+
+# Affichage des photos (à lancer après les mise à jour des calendriers)
+15 11,12,18,19,20 * * * sh /home/pi/epaper/miseAJourPhotos.sh
