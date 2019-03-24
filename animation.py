@@ -5,6 +5,7 @@ from datetime import datetime
 import time
 import board
 import neopixel
+import sys
 
 # Neopixels definitions
 numPixel    = 60
@@ -16,19 +17,22 @@ colGreen    = (0,intensite,0)
 
 # ________________________________________________________
 # Leds animations to indicate a button have been pressed
-def animation():
-	middle = int(numPixel/2)
+def animation( start ):
+
 	i      = 0
-	while i < middle :
-		pixels[middle + i]   = colGreen
-		pixels[middle - i]   = colGreen
+	middle	= int( start )
+	# Green animation, starting from "middle" pixel number
+	while i < numPixel /2 :
+		pixels[(middle + i) % numPixel]   = colGreen
+		pixels[(middle - i) % numPixel]   = colGreen
 		time.sleep(0.01)
 		i = i +1
 
 	i = 0
-	while i < middle :
-		pixels[middle + i]   = colBlack
-		pixels[middle - i]   = colBlack
+	# turn off the leds
+	while i < numPixel /2 :
+		pixels[(middle + i) % numPixel]   = colBlack
+		pixels[(middle - i) % numPixel]   = colBlack
 		time.sleep(0.01)
 		i = i +1
 
@@ -61,5 +65,12 @@ def displayClock():
 
 
 # Main loop =================================================
-animation()
+# Read arguments found in command line
+# sys.argv[0] is the programme name
+if( len(sys.argv) == 1 ):
+	PixelNumberBegining	= 30
+else:
+	PixelNumberBegining = int(sys.argv[1])
+
+animation(PixelNumberBegining)
 displayClock()

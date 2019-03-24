@@ -25,12 +25,13 @@ def my_callback(channel):
 
     # Leds animation
     os.system("sudo sh /home/pi/epaper/killClock.sh")
-    os.system("sudo python3 /home/pi/epaper/animation.py")
 
     if( channel == Bouton_Meteo):
+    	os.system("sudo python3 /home/pi/epaper/animation.py 45")
         os.system("/home/pi/epaper/meteo.py")
 
     elif( channel == Bouton_Detail ) :
+    	os.system("sudo python3 /home/pi/epaper/animation.py 15")
         os.system("/home/pi/epaper/calendrier.py")
 
     # restart the clock
@@ -40,12 +41,10 @@ def my_callback(channel):
 
 try:
     # see : https://sourceforge.net/p/raspberry-gpio-python/wiki/Inputs/
-    GPIO.add_event_detect(Bouton_Meteo,     GPIO.RISING, callback=my_callback, bouncetime=5000)  # add rising edge detection on a channel
-    GPIO.add_event_detect(Bouton_Detail,    GPIO.RISING, callback=my_callback, bouncetime=5000)  # add rising edge detection on a channel
-    print("Interruptions mise a jour")
+    GPIO.add_event_detect(Bouton_Meteo,     GPIO.RISING, callback=my_callback, bouncetime=1000)  # add rising edge detection on a channel
+    GPIO.add_event_detect(Bouton_Detail,    GPIO.RISING, callback=my_callback, bouncetime=1000)  # add rising edge detection on a channel
 
 except KeyboardInterrupt:
-    print("Cleaning up")
     GPIO.cleanup()
 
 
