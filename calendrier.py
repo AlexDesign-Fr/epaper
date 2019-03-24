@@ -87,28 +87,30 @@ def RecupeAgenda(scopes, CalendarsID):
     # Extract  Birthdays and Events from google agenda
     for events in l_TAB_Events:
         for event in events:
-            start   = event['start'].get('dateTime', event['start'].get('date'))
-            date   = start.split('T')
+            start = event['start'].get('dateTime', event['start'].get('date'))
 
-            # we got a birthday (looke for the string "Anniversaire" in the event's summary
-            # note : this string might change regarding your language.
+            # we got a birthday
             if ("Anniversaire") in event['summary']:
                 date = start.split("-")
+                # name    = event['summary'][13:]
                 name = event['summary'].replace(" - Anniversaire", "")
                 name = name.replace("Anniversaire ", "")
 
-                l_TAB_Birthdays.append([name, int(date[2]), int(date[1])])    # ("name", day, month)
+                l_TAB_Birthdays.append([name, int(date[2]), int(date[1])])
 
             # we got an event
             else:
-                temp    = start.split("T")  # ['2019-01-04', '13:00:00+01:00']
-                date    = temp[0].split("-")
+                # sometime, the starting date is in short format (2019-04-13) because there is no time set
+                # (this is the case for some event longer  than 24 hours)
+                if ("T" in start):
+                    temp = start.split("T")  # ['2019-01-27', '13:00:00+01:00']
+
+                else:
+                    temp = [start, "00:00:00+00:00"]
+
+                date = temp[0].split("-")
+                # Store data as ["summary, day, month, year, hh:mm:ss]
                 l_TAB_RendezVous.append([event['summary'], int(date[2]), int(date[1]), int(date[0]), temp[1][:5]])
-    
-
-
-
-
 
 
 # Display the calendar =================================================================================================

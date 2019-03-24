@@ -38,7 +38,7 @@ for calendarID in g_CalendarsID:
     events  = events_result.get('items', [])
     l_TAB_Events.append(events)
 
-
+print( l_TAB_Events )
 
 
 # recuperation des anniversaires et des rendez-vous
@@ -46,8 +46,8 @@ l_TAB_Birthdays   = []
 l_TAB_RendezVous  = []
 for events in l_TAB_Events:
     for event in events:
-        start   = event['start'].get('dateTime', event['start'].get('date'))
-        date   = start.split('T')
+        start  = event['start'].get('dateTime', event['start'].get('date'))
+
 
         # we got a birthday
         if("Anniversaire") in event['summary']:
@@ -60,13 +60,25 @@ for events in l_TAB_Events:
 
         # we got an event
         else:
-            temp    = start.split("T")  # ['2019-01-04', '13:00:00+01:00']
+            # sometime, the starting date is in short format (2019-04-13) because there is no time set
+            # (this is the case for some event longer  than 24 hours)
+            if( "T" in start ):
+                temp    = start.split("T")  # ['2019-01-27', '13:00:00+01:00']
+
+            else:
+                temp   = [start, "00:00:00+00:00"]
+                print("ok")
+
             date    = temp[0].split("-")
+            print(start, date, event['summary'])
             l_TAB_RendezVous.append([event['summary'], date[2], date[1], date[0], temp[1][:5]])
 
 
-print(l_TAB_Birthdays)
-print(l_TAB_RendezVous)
+print("l_TAB_Birthdays", l_TAB_Birthdays)
+
 
 for annif in l_TAB_Birthdays:
     print(annif)
+
+
+print("l_TAB_RendezVous", l_TAB_RendezVous)
